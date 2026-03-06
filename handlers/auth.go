@@ -34,7 +34,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		w.Write([]byte("Usuário ou senha inválidos"))
+		Tmpl.ExecuteTemplate(w, "login.html", map[string]string{
+			"Error": "Usuário ou senha inválidos",
+		})
 		return
 	}
 

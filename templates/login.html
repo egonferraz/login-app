@@ -7,7 +7,14 @@
 
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
+
 <div class="bg-white p-8 rounded shadow w-96">
+
+{{if .Error}}
+<div style="color:rgb(22, 17, 17); background:#f6f18f; padding:10px;">
+  {{.Error}}
+</div>
+{{end}}
 
 <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
