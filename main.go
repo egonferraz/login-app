@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"os"
 
 	"login-app/database"
 	"login-app/handlers"
@@ -16,9 +17,11 @@ func main() {
 		panic(err)
 	}
 
-	//models.CreateUser("Egon", "egon", "123")
-
 	handlers.Tmpl = template.Must(template.ParseGlob("templates/*.html"))
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	})
 
 	http.HandleFunc("/login", handlers.Login)
 	http.HandleFunc("/register", middleware.Auth(handlers.Register))
@@ -28,7 +31,12 @@ func main() {
 	http.HandleFunc("/delete-user", middleware.Auth(handlers.DeleteUser))
 	http.HandleFunc("/edit-user", middleware.Auth(handlers.EditUser))
 
-	println("Servidor em http://localhost:8080/login")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-	http.ListenAndServe(":8080", nil)
+	println("Servidor rodando na porta:", port)
+
+	http.ListenAndServe(":"+port, nil)
 }
