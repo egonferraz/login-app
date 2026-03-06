@@ -92,9 +92,9 @@ func GetUserByID(id string) (User, error) {
 	var user User
 
 	err := database.DB.QueryRow(
-		"SELECT id, username FROM users WHERE id = ?",
+		"SELECT id, nickname, username FROM users WHERE id = ?",
 		id,
-	).Scan(&user.ID, &user.Username)
+	).Scan(&user.ID, &user.Nickname, &user.Username)
 
 	return user, err
 }
